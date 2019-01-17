@@ -1,22 +1,27 @@
 <template>
-  <div class="card druid">
+  <div
+    class="card"
+    :class="`${spellClass}Background`"
+  >
     <article>
-      <header>CONTROL FLAMES</header>
+      <header>{{data.Name}}</header>
       <section>
-        <div><label>Casting Time</label><span>1 action</span></div>
-        <div><label>Range</label><span>60 feet</span></div>
+        <div><label :class="`${spellClass}Color`">Casting Time</label><span>{{data.Time}}</span></div>
+        <div><label :class="`${spellClass}Color`">Range</label><span>{{data.Range}}</span></div>
       </section>
       <section>
-        <div><label>Components</label><span>S</span></div>
-        <div><label>Duration</label><span>Instantaneous or 1 hour (see below)</span></div>
+        <div><label :class="`${spellClass}Color`">Components</label><span>{{data.Components}}</span></div>
+        <div><label :class="`${spellClass}Color`">Duration</label><span>{{data.Duration}}</span></div>
       </section>
-      <section class="description">
-        You choose nonmagical flame that you can see within range and that fits within a 5-foot cube. You affect it in one of the following ways:<br> • You instantaneously expand the flame 5 feet in one direction, provided that wood or other fuel is present in the new location.<br> • You instantaneously extinguish the flames within the cube.<br> • You double or halve the area of bright light and dim light cast by the flame, change its color or both . The change lasts for 1 hour.<br> • You cause simple shapes-such as the vague form of a creature, an inanimate object, or a location- to appear within the flames and animate as you like. The shapes last for 1 hour.<br> If you cast this spell multiple times, you can have up to three non-instantaneous effects created by it active at a time, and you can dismiss such an effect as an action.
+      <section
+        class="description"
+        v-html="data.Description"
+      >
       </section>
     </article>
     <footer>
-      <b class="class srclass">Druid (XGE)</b>
-      <b class="type srtype">Transmutation cantrip</b>
+      <b class="class srclass">{{data.Class}}</b>
+      <b class="type srtype">{{data.School}}</b>
     </footer>
   </div>
 </template>
@@ -25,14 +30,46 @@
 export default {
   name: "Card",
   props: {
-    msg: String
+    data: Object
+  },
+  data() {
+    return {
+      spellClass: this.data.Class.split(" ")[0]
+    };
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-$druid: #60b85d;
+/* $Bard: #8c5385;
+$Cleric: #ffad46;
+$Druid: #60b85d;
+$Paladin: #3bafb1;
+$Ranger: #857056;
+$Sorcerer: #f83a22;
+$Warlock: #8c5385;
+$Wizard: maroon; */
+$colors: (
+  Bard: #8c5385,
+  Cleric: #ffad46,
+  Druid: #60b85d,
+  Paladin: #3bafb1,
+  Ranger: #857056,
+  Sorcerer: #f83a22,
+  Warlock: #8c5385,
+  Wizard: maroon
+);
+
+@each $class, $color in $colors {
+  .#{$class}Background {
+    background-color: $color;
+  }
+
+  .#{$class}Color {
+    color: $color;
+  }
+}
 
 .card {
   min-height: 3.5in;
@@ -44,33 +81,44 @@ $druid: #60b85d;
   font-size: 62.5%;
 }
 article {
-  background: white;
   display: grid;
   text-align: center;
   grid-template-rows: auto auto auto 1fr;
   border-radius: 5px;
+  overflow: hidden;
 }
 header {
   padding: 5px 0;
-  font-size: 11pt;
+  font-size: 14px;
+  font-weight: 400;
+  background: white;
 }
 section {
   display: grid;
-  border-top: 2px solid $druid;
+  /* border-top: 2px solid $Druid; */
   grid-template-columns: 1fr 1fr;
+
+  margin-top: 2px;
 
   & div {
     display: grid;
+    align-content: flex-start;
     padding: 3px;
-    font-size: 0.9rem;
+    font-size: 9px;
+    background: white;
   }
 
   & div:last-child {
-    border-left: 2px solid $druid;
+    margin-left: 2px;
+
+    /* border-left: 2px solid $Druid; */
   }
 
   & label {
-    color: $druid;
+    /* color: $Druid; */
+    font-size: 10px;
+    font-weight: 700;
+    padding-bottom: 2px;
     text-transform: uppercase;
   }
 
@@ -78,6 +126,7 @@ section {
     text-align: left;
     display: initial;
     padding: 3px;
+    background: white;
   }
 }
 
@@ -88,7 +137,10 @@ footer {
   grid-auto-flow: column;
   justify-content: space-between;
 }
-.druid {
-  background-color: $druid;
-}
+
+/* @media print {
+  header {
+    font-size: 12pt;
+  }
+} */
 </style>

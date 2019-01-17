@@ -1,15 +1,24 @@
 <template>
   <div class="cards">
-    <card msg="Welcome to Your Vue.js App" />
+    <card
+      :data="spell"
+      v-for="(spell,index) in bard"
+      :key="index"
+    />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Card from "@/components/Card.vue";
-
+import bard from "@/data/bard.json";
 export default {
   name: "home",
+  data() {
+    return {
+      bard
+    };
+  },
   components: {
     Card
   }
