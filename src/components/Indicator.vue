@@ -1,15 +1,18 @@
 <template>
-  <span class="indicator">
+  <span
+    class="indicator"
+    :class="{absolute}"
+  >
     <em>{{indicator}}</em>
   </span>
 </template>
 
 <script>
 export default {
-  props: { type: String },
+  props: { type: String, absolute: Boolean },
   data() {
     return {
-      indicator: this.type === "concentration" ? "C" : "R"
+      indicator: this.type[0].toUpperCase()
     };
   }
 };
@@ -21,10 +24,13 @@ export default {
   height: 16px;
   margin-top: 4px;
   margin-left: 2px;
-  position: absolute;
   display: grid;
   transform: rotate(-45deg);
   align-items: center;
+  text-align: center;
+}
+.absolute {
+  position: absolute;
 }
 em {
   font-style: normal;

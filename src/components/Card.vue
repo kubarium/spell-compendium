@@ -12,6 +12,7 @@
             :class="`${spellClass}Background`"
             v-show="data.Ritual"
             type="ritual"
+            :absolute="true"
           />
           <label :class="`${spellClass}Color`">Casting Time</label><span>{{data.Time}}</span>
         </div>
@@ -25,14 +26,28 @@
             :class="`${spellClass}Background`"
             v-show="data.Concentration"
             type="concentration"
+            :absolute="true"
           />
           <label :class="`${spellClass}Color`">Duration</label><span>{{data.Duration}}</span>
         </div>
       </section>
-      <section
-        class="description"
-        v-html="data.Description"
-      >
+      <section class="description">
+        <p
+          class="material"
+          v-show="data.Material"
+        >
+          <indicator
+            class="indicator"
+            :class="`${spellClass}Background`"
+            type="material"
+            :absolute="false"
+          />
+          <span>
+            {{data.Material}}
+          </span>
+        </p>
+        <p v-html="data.Description">
+        </p>
       </section>
     </article>
     <footer>
@@ -131,12 +146,26 @@ section {
 
   &:last-child {
     text-align: left;
-    display: initial;
+    display: grid;
+    grid-auto-flow: row;
+    grid-gap: 5px;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: initial;
     padding: 3px;
     background: white;
   }
-}
 
+  & p {
+    margin: 0;
+  }
+}
+.material {
+  grid-template-columns: 1fr 100%;
+  grid-auto-flow: column;
+  grid-gap: 8px;
+  display: grid;
+  align-items: center;
+}
 footer {
   color: white;
   display: grid;
