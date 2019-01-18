@@ -6,12 +6,28 @@
     <article>
       <header>{{data.Name}}</header>
       <section>
-        <div><label :class="`${spellClass}Color`">Casting Time</label><span>{{data.Time}}</span></div>
+        <div class="time">
+          <indicator
+            class="indicator"
+            :class="`${spellClass}Background`"
+            v-show="data.Ritual"
+            type="ritual"
+          />
+          <label :class="`${spellClass}Color`">Casting Time</label><span>{{data.Time}}</span>
+        </div>
         <div><label :class="`${spellClass}Color`">Range</label><span>{{data.Range}}</span></div>
       </section>
       <section>
         <div><label :class="`${spellClass}Color`">Components</label><span>{{data.Components}}</span></div>
-        <div><label :class="`${spellClass}Color`">Duration</label><span>{{data.Duration}}</span></div>
+        <div class="duration">
+          <indicator
+            class="indicator"
+            :class="`${spellClass}Background`"
+            v-show="data.Concentration"
+            type="concentration"
+          />
+          <label :class="`${spellClass}Color`">Duration</label><span>{{data.Duration}}</span>
+        </div>
       </section>
       <section
         class="description"
@@ -27,11 +43,13 @@
 </template>
 
 <script>
+import Indicator from "./Indicator.vue";
 export default {
   name: "Card",
   props: {
     data: Object
   },
+  components: { Indicator },
   data() {
     return {
       spellClass: this.data.Class.split(" ")[0]
@@ -42,14 +60,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-/* $Bard: #8c5385;
-$Cleric: #ffad46;
-$Druid: #60b85d;
-$Paladin: #3bafb1;
-$Ranger: #857056;
-$Sorcerer: #f83a22;
-$Warlock: #8c5385;
-$Wizard: maroon; */
 $colors: (
   Bard: #8c5385,
   Cleric: #ffad46,
@@ -95,7 +105,6 @@ header {
 }
 section {
   display: grid;
-  /* border-top: 2px solid $Druid; */
   grid-template-columns: 1fr 1fr;
 
   margin-top: 2px;
@@ -110,16 +119,14 @@ section {
 
   & div:last-child {
     margin-left: 2px;
-
-    /* border-left: 2px solid $Druid; */
   }
 
   & label {
-    /* color: $Druid; */
     font-size: 10px;
     font-weight: 700;
     padding-bottom: 2px;
     text-transform: uppercase;
+    grid-area: "label";
   }
 
   &:last-child {

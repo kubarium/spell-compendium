@@ -25,6 +25,8 @@ function jsonize() {
       .fromFile(`${file.toLocaleLowerCase()}.csv`)
       .then(materialize)
       .then(level)
+      .then(concentrate)
+      .then(ritualize)
       .then(jsonized =>
         fs.writeFileSync(
           `${file.toLocaleLowerCase()}.json`,
@@ -61,6 +63,34 @@ function level(jsonized) {
         item.HigherLevel = match.replace("<br> <b>At Higher Levels</b>: ", "");
         item.Description = item.Description.replace(levelPattern, "");
       }
+    });
+
+    resolve(jsonized);
+  });
+}
+
+function concentrate(jsonized) {
+  return new Promise(resolve => {
+    var concentrationPattern = /Concentration, /;
+
+    jsonized.forEach(item => {
+      item.Concentration = RegExp(concentrationPattern, "g").test(
+        item.Duration
+      );
+      item.Duration = item.Duration.replace(concentrationPattern, "");
+    });
+
+    resolve(jsonized);
+  });
+}
+
+function ritualize(jsonized) {
+  return new Promise(resolve => {
+    var ritualizePattern = / \(ritual\)/;
+
+    jsonized.forEach(item => {
+      item.Ritual = RegExp(ritualizePattern, "g").test(item.Name);
+      item.Name = item.Name.replace(ritualizePattern, "");
     });
 
     resolve(jsonized);
