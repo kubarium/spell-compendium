@@ -6,7 +6,7 @@
     <article>
       <header>{{data.Name}}</header>
       <section>
-        <div class="time">
+        <div class="divided">
           <indicator
             class="indicator"
             :class="`${spellClass}Background`"
@@ -16,11 +16,11 @@
           />
           <label :class="`${spellClass}Color`">Casting Time</label><span>{{data.Time}}</span>
         </div>
-        <div><label :class="`${spellClass}Color`">Range</label><span>{{data.Range}}</span></div>
+        <div class="divided"><label :class="`${spellClass}Color`">Range</label><span>{{data.Range}}</span></div>
       </section>
       <section>
-        <div><label :class="`${spellClass}Color`">Components</label><span>{{data.Components}}</span></div>
-        <div class="duration">
+        <div class="divided"><label :class="`${spellClass}Color`">Components</label><span>{{data.Components}}</span></div>
+        <div class="divided">
           <indicator
             class="indicator"
             :class="`${spellClass}Background`"
@@ -31,7 +31,11 @@
           <label :class="`${spellClass}Color`">Duration</label><span>{{data.Duration}}</span>
         </div>
       </section>
-      <section class="description">
+      <section>
+        <p
+          class="description"
+          v-html="data.Description"
+        />
         <p
           class="material"
           v-show="data.Material"
@@ -46,8 +50,13 @@
             {{data.Material}}
           </span>
         </p>
-        <p v-html="data.Description">
-        </p>
+        <div
+          class="higherLevel"
+          v-show="data.HigherLevel"
+        >
+          <h1 :class="`${spellClass}Background`">At Higher Levels</h1>
+          <p v-html="data.HigherLevel"></p>
+        </div>
       </section>
     </article>
     <footer>
@@ -117,14 +126,16 @@ header {
   font-size: 14px;
   font-weight: 400;
   background: white;
+  text-transform: uppercase;
 }
+
 section {
   display: grid;
   grid-template-columns: 1fr 1fr;
 
   margin-top: 2px;
 
-  & div {
+  & .divided {
     display: grid;
     align-content: flex-start;
     padding: 3px;
@@ -132,7 +143,7 @@ section {
     background: white;
   }
 
-  & div:last-child {
+  & .divided:last-child {
     margin-left: 2px;
   }
 
@@ -141,7 +152,6 @@ section {
     font-weight: 700;
     padding-bottom: 2px;
     text-transform: uppercase;
-    grid-area: "label";
   }
 
   &:last-child {
@@ -151,20 +161,40 @@ section {
     grid-gap: 5px;
     grid-template-rows: auto 1fr;
     grid-template-columns: initial;
-    padding: 3px;
     background: white;
   }
 
   & p {
     margin: 0;
+    padding: 3px;
   }
-}
-.material {
-  grid-template-columns: 1fr 100%;
-  grid-auto-flow: column;
-  grid-gap: 8px;
-  display: grid;
-  align-items: center;
+
+  & .material {
+    margin-bottom: 3px;
+    display: grid;
+    grid-template-columns: 1fr 100%;
+    grid-auto-flow: column;
+    grid-gap: 8px;
+    align-self: flex-end;
+    align-items: center;
+  }
+
+  & .description {
+    /deep/ br {
+      line-height: 15px;
+    }
+  }
+
+  & .higherLevel {
+    align-self: flex-end;
+  }
+  & .higherLevel h1 {
+    color: white;
+    text-align: center;
+    padding: 2px;
+    font-size: 10px;
+    margin: 0;
+  }
 }
 footer {
   color: white;
