@@ -5,7 +5,6 @@
         <h1 class="title mb-3">
           Filters
         </h1>
-        <!-- <v-divider /> -->
         <v-sheet class="px-2">
           <v-text-field
             label="Spell Name"
@@ -31,18 +30,24 @@
         </v-sheet>
       </v-flex>
       <v-flex>
-        Preview
+        <h1 class="title mb-3">
+          Preview
+        </h1>
+        <v-sheet class="px-2">
+          <card :data="$store.state.tomeOfMagic.spell" />
+        </v-sheet>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+import Card from "./Card.vue";
 import LevelSelector from "./LevelSelector.vue";
 import ClassSelector from "./ClassSelector.vue";
 import SpellList from "./SpellList.vue";
 export default {
   name: "tome-of-magic",
-  components: { ClassSelector, LevelSelector, SpellList }
+  components: { Card, ClassSelector, LevelSelector, SpellList }
 };
 </script>
