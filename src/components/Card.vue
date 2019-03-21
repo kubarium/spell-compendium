@@ -1,10 +1,7 @@
 <template>
-  <div
-    class="card"
-    :class="`${spellClass}Background`"
-  >
+  <div class="card" :class="`${spellClass}Background`">
     <article>
-      <header>{{data.Name}}</header>
+      <header>{{ data.Name }}</header>
       <section>
         <div class="divided">
           <indicator
@@ -14,12 +11,19 @@
             type="ritual"
             :absolute="true"
           />
-          <label :class="`${spellClass}Color`">Casting Time</label><span>{{data.Time}}</span>
+          <label :class="`${spellClass}Color`">Casting Time</label
+          ><span>{{ data.Time }}</span>
         </div>
-        <div class="divided"><label :class="`${spellClass}Color`">Range</label><span>{{data.Range}}</span></div>
+        <div class="divided">
+          <label :class="`${spellClass}Color`">Range</label
+          ><span>{{ data.Range }}</span>
+        </div>
       </section>
       <section>
-        <div class="divided"><label :class="`${spellClass}Color`">Components</label><span>{{data.Components}}</span></div>
+        <div class="divided">
+          <label :class="`${spellClass}Color`">Components</label
+          ><span>{{ data.Components }}</span>
+        </div>
         <div class="divided">
           <indicator
             class="indicator"
@@ -28,40 +32,30 @@
             type="concentration"
             :absolute="true"
           />
-          <label :class="`${spellClass}Color`">Duration</label><span>{{data.Duration}}</span>
+          <label :class="`${spellClass}Color`">Duration</label
+          ><span>{{ data.Duration }}</span>
         </div>
       </section>
       <section>
-        <p
-          class="description"
-          v-html="data.Description"
-        />
-        <p
-          class="material"
-          v-show="data.Material"
-        >
+        <p class="description" v-html="data.Description" />
+        <p class="material" v-show="data.Material">
           <indicator
             class="indicator"
             :class="`${spellClass}Background`"
             type="material"
             :absolute="false"
           />
-          <span>
-            {{data.Material}}
-          </span>
+          <span>{{ data.Material }}</span>
         </p>
-        <div
-          class="higherLevel"
-          v-show="data.HigherLevel"
-        >
+        <div class="higherLevel" v-show="data.HigherLevel">
           <h1 :class="`${spellClass}Background`">At Higher Levels</h1>
           <p v-html="data.HigherLevel"></p>
         </div>
       </section>
     </article>
     <footer>
-      <b class="class srclass">{{data.Class}}</b>
-      <b class="type srtype">{{data.School}}</b>
+      <b class="class srclass">{{ data.Class }}</b>
+      <b class="type srtype">{{ data.School }}</b>
     </footer>
   </div>
 </template>

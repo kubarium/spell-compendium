@@ -1,9 +1,6 @@
 <template>
-  <span
-    class="indicator"
-    :class="{absolute}"
-  >
-    <em>{{indicator}}</em>
+  <span class="indicator" :class="{ absolute }">
+    <em>{{ indicator }}</em>
   </span>
 </template>
 

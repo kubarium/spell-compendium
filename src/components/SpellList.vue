@@ -1,0 +1,32 @@
+<template>
+  <v-list dense>
+    <template v-for="(spell, index) in spells">
+      <v-divider :key="`divider-${index}`" v-if="index > 0" />
+      <v-list-tile :key="`spell-${index}`" avatar>
+        <v-list-tile-avatar v-show="mode === 'basket'">
+          <v-icon color="red">{{ spellLevel(spell.level) }}</v-icon>
+        </v-list-tile-avatar>
+        <v-list-tile-content>
+          <v-list-tile-title>{{ spell.name }}</v-list-tile-title>
+        </v-list-tile-content>
+        <v-list-tile-action @click="$store.dispatch('addToGrimoire', spell)">
+          <v-icon>library_add</v-icon>
+        </v-list-tile-action>
+      </v-list-tile>
+    </template>
+  </v-list>
+</template>
+
+<script>
+export default {
+  name: "spell-list",
+  props: { spells: Object, mode: String },
+  methods: {
+    spellLevel(level) {
+      return level === 0 ? `filter_none` : `filter_${level}`;
+    }
+  }
+};
+</script>
+<style lang="scss" scoped>
+</style>

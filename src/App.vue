@@ -1,15 +1,34 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+  <v-app>
+    <v-toolbar app>aaa</v-toolbar>
+    <v-content>
+      <!-- <router-view /> -->
+      <v-container>
+        <v-tabs dark color="pink accent-3" slider-color="indigo darken-4">
+          <v-tab>Tome of Magic</v-tab>
+          <v-tab>Grimoire</v-tab>
+          <v-tab-item>
+            <tome-of-magic />
+            <!-- <v-card>
+            </v-card> -->
+          </v-tab-item>
+          <v-tab-item>
+            <v-card>
+              <h1>put your shit here</h1>
+              your tome
+            </v-card>
+          </v-tab-item>
+        </v-tabs>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: "Lato", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-</style>
+<script>
+import TomeOfMagic from "@/components/TomeOfMagic.vue";
+export default {
+  components: {
+    TomeOfMagic
+  }
+};
+</script>

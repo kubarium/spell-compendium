@@ -1,13 +1,6 @@
 <template>
-  <div
-    class="cards"
-    :class="orientation"
-  >
-    <card
-      :data="spell"
-      v-for="(spell,index) in bard"
-      :key="index"
-    />
+  <div class="cards" :class="orientation">
+    <card :data="spell" v-for="(spell, index) in bard" :key="index" />
   </div>
 </template>
 
