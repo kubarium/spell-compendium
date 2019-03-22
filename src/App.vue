@@ -8,14 +8,13 @@
           <v-tab>Tome of Magic</v-tab>
           <v-tab>Grimoire</v-tab>
           <v-tab-item>
-            <tome-of-magic />
-            <!-- <v-card>
-            </v-card> -->
+            <v-card>
+              <tome-of-magic/>
+            </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card>
-              <h1>put your shit here</h1>
-              your tome
+              <h1>put your shit here</h1>your tome
             </v-card>
           </v-tab-item>
         </v-tabs>

@@ -1,44 +1,44 @@
 <template>
   <div class="card" :class="`${spellClass}Background`">
     <article>
-      <header>{{ data.Name }}</header>
+      <header>{{ data.name }}</header>
       <section>
         <div class="divided">
           <indicator
             class="indicator"
             :class="`${spellClass}Background`"
-            v-show="data.Ritual"
+            v-show="data.ritual"
             type="ritual"
             :absolute="true"
           />
-          <label :class="`${spellClass}Color`">Casting Time</label
-          ><span>{{ data.Time }}</span>
+          <label :class="`${spellClass}Color`">Casting Time</label>
+          <span>{{ data.time }}</span>
         </div>
         <div class="divided">
-          <label :class="`${spellClass}Color`">Range</label
-          ><span>{{ data.Range }}</span>
+          <label :class="`${spellClass}Color`">Range</label>
+          <span>{{ data.range }}</span>
         </div>
       </section>
       <section>
         <div class="divided">
-          <label :class="`${spellClass}Color`">Components</label
-          ><span>{{ data.Components }}</span>
+          <label :class="`${spellClass}Color`">Components</label>
+          <span>{{ data.components }}</span>
         </div>
         <div class="divided">
           <indicator
             class="indicator"
             :class="`${spellClass}Background`"
-            v-show="data.Concentration"
+            v-show="data.concentration"
             type="concentration"
             :absolute="true"
           />
-          <label :class="`${spellClass}Color`">Duration</label
-          ><span>{{ data.Duration }}</span>
+          <label :class="`${spellClass}Color`">Duration</label>
+          <span>{{ data.duration }}</span>
         </div>
       </section>
       <section>
-        <p class="description" v-html="data.Description" />
-        <p class="material" v-show="data.Material">
+        <p class="description" v-html="data.description"/>
+        <p class="material" v-show="data.material">
           <indicator
             class="indicator"
             :class="`${spellClass}Background`"
@@ -47,15 +47,15 @@
           />
           <span>{{ data.Material }}</span>
         </p>
-        <div class="higherLevel" v-show="data.HigherLevel">
+        <div class="higherLevel" v-show="data.higherLevel">
           <h1 :class="`${spellClass}Background`">At Higher Levels</h1>
-          <p v-html="data.HigherLevel"></p>
+          <p v-html="data.higherLevel"></p>
         </div>
       </section>
     </article>
     <footer>
-      <b class="class srclass">{{ data.Class }}</b>
-      <b class="type srtype">{{ data.School }}</b>
+      <b class="class srclass">{{ data.class }}</b>
+      <b class="type srtype">{{ data.school }}</b>
     </footer>
   </div>
 </template>
@@ -70,7 +70,7 @@ export default {
   components: { Indicator },
   data() {
     return {
-      spellClass: this.data.Class.split(" ")[0]
+      spellClass: this.data.class.split(" ")[0]
     };
   }
 };
