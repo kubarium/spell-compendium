@@ -6,6 +6,5 @@
     solo
     hide-details
     @input="$store.commit('changeClass', $event)"
-    @change="$store.dispatch('rummageTome')"
   />
 </template>

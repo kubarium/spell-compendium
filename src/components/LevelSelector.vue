@@ -3,7 +3,6 @@
     class="btn-group"
     mandatory
     v-model="$store.state.tomeOfMagic.level"
-    @change="$store.dispatch('rummageTome')"
   >
     <v-btn
       flat

@@ -1,61 +1,68 @@
 <template>
-  <div class="card" :class="`${spellClass}Background`">
-    <article>
-      <header>{{ data.name }}</header>
+  <div
+    class="card"
+    :class="{
+      [`${spellClass}Background`]: true,
+      wide: $store.state.tomeOfMagic.wide,
+      tall: $store.state.tomeOfMagic.tall,
+    }"
+  >
+    <article ref="article">
+      <header>{{ spell.name }}</header>
       <section>
         <div class="divided">
           <indicator
             class="indicator"
             :class="`${spellClass}Background`"
-            v-show="data.ritual"
+            v-show="spell.ritual"
             type="ritual"
             :absolute="true"
           />
           <label :class="`${spellClass}Color`">Casting Time</label>
-          <span>{{ data.time }}</span>
+          <span>{{ spell.time }}</span>
         </div>
         <div class="divided">
           <label :class="`${spellClass}Color`">Range</label>
-          <span>{{ data.range }}</span>
+          <span>{{ spell.range }}</span>
         </div>
       </section>
       <section>
         <div class="divided">
           <label :class="`${spellClass}Color`">Components</label>
-          <span>{{ data.components }}</span>
+          <span>{{ spell.components }}</span>
         </div>
         <div class="divided">
           <indicator
             class="indicator"
             :class="`${spellClass}Background`"
-            v-show="data.concentration"
+            v-show="spell.concentration"
             type="concentration"
             :absolute="true"
           />
           <label :class="`${spellClass}Color`">Duration</label>
-          <span>{{ data.duration }}</span>
+          <span>{{ spell.duration }}</span>
         </div>
       </section>
       <section>
-        <p class="description" v-html="data.description"/>
-        <p class="material" v-show="data.material">
+        <p class="description" v-html="spell.description" />
+        <p class="material" v-show="spell.material">
           <indicator
             class="indicator"
             :class="`${spellClass}Background`"
             type="material"
             :absolute="false"
           />
-          <span>{{ data.Material }}</span>
+          <span>{{ spell.material }}</span>
         </p>
-        <div class="higherLevel" v-show="data.higherLevel">
+        <div class="higherLevel" v-show="spell.higherLevel">
           <h1 :class="`${spellClass}Background`">At Higher Levels</h1>
-          <p v-html="data.higherLevel"></p>
+          <p v-html="spell.higherLevel"></p>
         </div>
       </section>
     </article>
     <footer>
-      <b class="class srclass">{{ data.class }}</b>
-      <b class="type srtype">{{ data.school }}</b>
+      <b class="class srclass">{{ spell.class }}</b>
+      <b class="type srtype">{{ spell.school }}</b>
     </footer>
   </div>
 </template>
@@ -65,12 +72,12 @@ import Indicator from "./Indicator.vue";
 export default {
   name: "Card",
   props: {
-    data: Object
+    spell: Object
   },
   components: { Indicator },
   data() {
     return {
-      spellClass: this.data.class.split(" ")[0]
+      spellClass: this.spell.class.split(" ")[0]
     };
   }
 };
@@ -99,9 +106,16 @@ $colors: (
   }
 }
 
+.card.wide {
+  width: 5in;
+}
+.card.tall {
+  height: 7in;
+}
+
 .card {
-  min-height: 3.5in;
-  min-width: 2.5in;
+  height: 3.5in;
+  width: 2.5in;
   display: grid;
   grid-template-rows: 1fr auto;
   margin: 1px;
