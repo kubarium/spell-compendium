@@ -3,37 +3,31 @@ const csv = require("csvtojson");
 const classes = require("./classes.json");
 
 function jsonize() {
-  classes.forEach(file => {
-    const headers = [
-      "Level",
-      "Name",
-      "School",
-      "Time",
-      "Range",
-      "Components",
-      "Duration",
-      "Description",
-      "Class"
-    ];
 
-    csv({
-      noheader: true,
-      headers,
-      checkType: true,
-      delimiter: ";"
-    })
-      .fromFile(`${file.toLocaleLowerCase()}.csv`)
+  const headers = [
+    "level",
+    "name",
+    "school",
+    "time",
+    "range",
+    "components",
+    "duration",
+    "description",
+    "class"
+  ];
+
+  return Promise.all(classes.map(file => {
+
+    csv({noheader: true, headers, checkType: true, delimiter: ";"}).fromFile(`${file.toLowerCase()}.csv`)
       .then(materialize)
       .then(level)
       .then(concentrate)
       .then(ritualize)
-      .then(jsonized =>
-        fs.writeFileSync(
-          `${file.toLocaleLowerCase()}.json`,
-          JSON.stringify(jsonized)
-        )
-      );
-  });
+      .then(jsonized => {
+        fs.writeFileSync(`${file.toLowerCase()}.json`, JSON.stringify(jsonized))
+      });
+  }))
+
 }
 
 function materialize(jsonized) {
@@ -41,11 +35,15 @@ function materialize(jsonized) {
     var materialPattern = /^(\(.*?\))/;
 
     jsonized.forEach(item => {
-      if (RegExp(materialPattern, "g").test(item.Description)) {
-        var match = RegExp(materialPattern, "g").exec(item.Description)[0];
+      if (RegExp(materialPattern, "g").test(item.description)) {
+        var match = RegExp(materialPattern, "g").exec(item.description)[0];
 
-        item.Material = match.replace(")", "").replace("(", "");
-        item.Description = item.Description.replace(materialPattern, "");
+        item.material = match
+          .replace(")", "")
+          .replace("(", "");
+        item.description = item
+          .description
+          .replace(materialPattern, "");
       }
     });
 
@@ -57,11 +55,13 @@ function level(jsonized) {
     var levelPattern = /(<br> <b>At Higher Levels<\/b>: .*)/;
 
     jsonized.forEach(item => {
-      if (RegExp(levelPattern, "g").test(item.Description)) {
-        var match = RegExp(levelPattern, "g").exec(item.Description)[0];
+      if (RegExp(levelPattern, "g").test(item.description)) {
+        var match = RegExp(levelPattern, "g").exec(item.description)[0];
 
-        item.HigherLevel = match.replace("<br> <b>At Higher Levels</b>: ", "");
-        item.Description = item.Description.replace(levelPattern, "");
+        item.higherLevel = match.replace("<br> <b>At Higher Levels</b>: ", "");
+        item.description = item
+          .description
+          .replace(levelPattern, "");
       }
     });
 
@@ -74,10 +74,10 @@ function concentrate(jsonized) {
     var concentrationPattern = /Concentration, /;
 
     jsonized.forEach(item => {
-      item.Concentration = RegExp(concentrationPattern, "g").test(
-        item.Duration
-      );
-      item.Duration = item.Duration.replace(concentrationPattern, "");
+      item.concentration = RegExp(concentrationPattern, "g").test(item.duration);
+      item.duration = item
+        .duration
+        .replace(concentrationPattern, "");
     });
 
     resolve(jsonized);
@@ -89,12 +89,24 @@ function ritualize(jsonized) {
     var ritualizePattern = / \(ritual\)/;
 
     jsonized.forEach(item => {
-      item.Ritual = RegExp(ritualizePattern, "g").test(item.Name);
-      item.Name = item.Name.replace(ritualizePattern, "");
+      item.ritual = RegExp(ritualizePattern, "g").test(item.name);
+      item.name = item
+        .name
+        .replace(ritualizePattern, "");
     });
 
     resolve(jsonized);
   });
 }
 
-jsonize();
+function amalgamate() {
+  var spells = []
+  classes.forEach(file => {
+    spells = spells.concat(JSON.parse(fs.readFileSync(`${file}.json`, "utf8")).map(entry => {
+      return {level: entry.level, name: entry.name, class: entry.class}
+    }))
+  })
+  fs.writeFileSync(`spells.json`, JSON.stringify(spells.flat()))
+}
+
+jsonize().then(amalgamate);
