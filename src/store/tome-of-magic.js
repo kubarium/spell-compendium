@@ -25,6 +25,15 @@ export default {
     }
   },
   getters : {
+    spell: state => spell => {
+      const vocation = spell
+        .class
+        .toLowerCase();
+      const name = spell.name;
+      return state
+        .spells[vocation]
+        .filter(spell => spell.name == name)[0]
+    },
     spells: state => spells
       .filter(spell => spell.class == state.class)
       .filter(spell => spell.level == state.level)
@@ -74,19 +83,19 @@ export default {
     previewSpell({
       state,
       commit,
+      getters,
       dispatch
     }, spell) {
       const vocation = spell
         .class
         .toLowerCase();
-      const name = spell.name;
 
       if (state.spells[vocation]) {
-        commit("previewSpell", state.spells[vocation].filter(spell => spell.name == name)[0]);
+        commit("previewSpell", getters.spell(spell));
         commit("updateCardDimensions");
       } else {
-        dispatch("fetchSpells", vocation).then(spells => {
-          commit("previewSpell", spells.filter(spell => spell.name == name)[0]);
+        dispatch("fetchSpells", vocation).then(() => {
+          commit("previewSpell", getters.spell(spell));
           commit("updateCardDimensions");
         });
       }

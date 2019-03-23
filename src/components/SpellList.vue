@@ -10,7 +10,7 @@
           <v-list-tile-title>{{ spell.name }}</v-list-tile-title>
         </v-list-tile-content>
         <v-list-tile-action
-          @click.stop="$store.commit('addSpell', spell)"
+          @click.stop="$store.dispatch('addSpell', spell)"
           v-if="!$store.getters.isSpellInGrimoire(spell)"
         >
           <v-icon>add_circle</v-icon>

@@ -34,5 +34,24 @@ export default {
           .splice(spellIndex, 1);
       }
     }
+  },
+  actions : {
+    addSpell({
+      commit,
+      dispatch,
+      rootState,
+      rootGetters
+    }, payload) {
+      const vocation = payload
+        .class
+        .toLowerCase()
+      if (rootState.tomeOfMagic.spells[vocation]) {
+
+        commit("addSpell", rootGetters.spell(payload))
+
+      } else {
+        dispatch("fetchSpells", vocation).then(() => commit("addSpell", rootGetters.spell(payload)))
+      }
+    }
   }
 };
