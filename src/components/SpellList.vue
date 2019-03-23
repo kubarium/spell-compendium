@@ -1,7 +1,7 @@
 <template>
   <v-list dense class="spell-list">
     <template v-for="(spell, index) in spells">
-      <v-divider :key="`divider-${index}`" v-if="index > 0" />
+      <v-divider :key="`divider-${index}`" v-if="index > 0"/>
       <v-list-tile :key="`spell-${index}`" avatar @click="previewSpell(spell)">
         <v-list-tile-avatar v-show="mode === 'basket'">
           <v-icon color="red">{{ spellLevel(spell.level) }}</v-icon>
@@ -10,12 +10,12 @@
           <v-list-tile-title>{{ spell.name }}</v-list-tile-title>
         </v-list-tile-content>
         <v-list-tile-action
-          @click.prevent="$store.commit('addSpell', spell)"
+          @click.stop="$store.commit('addSpell', spell)"
           v-if="!$store.getters.isSpellInGrimoire(spell)"
         >
           <v-icon>add_circle</v-icon>
         </v-list-tile-action>
-        <v-list-tile-action @click="$store.commit('removeSpell', spell)" v-else>
+        <v-list-tile-action @click.stop="$store.commit('removeSpell', spell)" v-else>
           <v-icon>remove_circle</v-icon>
         </v-list-tile-action>
       </v-list-tile>
@@ -41,7 +41,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .spell-list {
-  height: 20ch;
+  height: 30vh;
   overflow-y: scroll;
 }
 </style>

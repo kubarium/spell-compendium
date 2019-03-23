@@ -1,11 +1,10 @@
 <template>
   <div
     class="card"
-    :class="{
-      [`${spellClass}Background`]: true,
+    :class="[`${spellClass}Background`,{
       wide: $store.state.tomeOfMagic.wide,
       tall: $store.state.tomeOfMagic.tall,
-    }"
+    }]"
   >
     <article ref="article">
       <header>{{ spell.name }}</header>
@@ -44,7 +43,7 @@
         </div>
       </section>
       <section>
-        <p class="description" v-html="spell.description" />
+        <p class="description" v-html="spell.description"/>
         <p class="material" v-show="spell.material">
           <indicator
             class="indicator"
@@ -180,7 +179,7 @@ section {
   & .material {
     margin-bottom: 3px;
     display: grid;
-    grid-template-columns: 1fr 100%;
+    grid-template-columns: 1fr auto;
     grid-auto-flow: column;
     grid-gap: 8px;
     align-self: flex-end;

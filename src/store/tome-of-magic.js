@@ -3,7 +3,7 @@ import colors from "@/data/colors.json";
 import spells from "@/data/spells.json";
 
 export default {
-  state: {
+  state : {
     level: 4,
     class: "Wizard",
     classes,
@@ -24,15 +24,14 @@ export default {
       wizard: "https://api.myjson.com/bins/1gqygy"
     }
   },
-  getters: {
-    spells: state =>
-      spells
-        .filter(spell => spell.class == state.class)
-        .filter(spell => spell.level == state.level)
-        .filter(spell => RegExp(state.keyword).test(spell.name))
+  getters : {
+    spells: state => spells
+      .filter(spell => spell.class == state.class)
+      .filter(spell => spell.level == state.level)
+      .filter(spell => RegExp(state.keyword).test(spell.name))
   },
-  mutations: {
-    changeKeyword: (state, keyword) => (state.keyword = keyword),
+  mutations : {
+    changeKeyword: (state, keyword) => (state.keyword = keyword || ""),
     changeLevel: (state, level) => (state.level = level),
     changeClass: (state, vocation) => (state.class = vocation),
     previewSpell: (state, spell) => (state.spell = spell),
@@ -44,14 +43,26 @@ export default {
       if (state.spell.material) {
         length += state.spell.material.length;
       }
-      console.log(length);
 
-      state.wide = length > 555;
-      state.tall = length / 2 > 500;
+      if (length < 570) {
+        state.wide = false;
+        state.tall = false
+      } else if (length < 1070) {
+        state.wide = true;
+        state.tall = false
+      } else if (length < 1830) {
+        state.wide = false;
+        state.tall = true
+      } else {
+        state.wide = true;
+        state.tall = true
+      }
     }
   },
-  actions: {
-    fetchSpells({ state }, vocation) {
+  actions : {
+    fetchSpells({
+      state
+    }, vocation) {
       return fetch(state.urls[vocation])
         .then(response => response.json())
         .then(spells => {
@@ -60,15 +71,18 @@ export default {
           return spells;
         });
     },
-    previewSpell({ state, commit, dispatch }, spell) {
-      const vocation = spell.class.toLowerCase();
+    previewSpell({
+      state,
+      commit,
+      dispatch
+    }, spell) {
+      const vocation = spell
+        .class
+        .toLowerCase();
       const name = spell.name;
 
       if (state.spells[vocation]) {
-        commit(
-          "previewSpell",
-          state.spells[vocation].filter(spell => spell.name == name)[0]
-        );
+        commit("previewSpell", state.spells[vocation].filter(spell => spell.name == name)[0]);
         commit("updateCardDimensions");
       } else {
         dispatch("fetchSpells", vocation).then(spells => {
