@@ -1,6 +1,11 @@
 <template>
   <v-list dense class="spell-list">
-    <draggable v-model="spellList" draggable=".spell-item" @change="log">
+    <draggable
+      v-model="spellList"
+      draggable=".spell-item"
+      @change="log"
+      :disabled="mode !== 'grimoire'"
+    >
       <template v-for="(spell, index) in spells">
         <v-list-tile
           :key="`spell-${index}`"
