@@ -1,36 +1,98 @@
 <template>
   <v-list dense class="spell-list">
-    <template v-for="(spell, index) in spells">
-      <v-divider :key="`divider-${index}`" v-if="index > 0"/>
-      <v-list-tile :key="`spell-${index}`" avatar @click="previewSpell(spell)">
-        <v-list-tile-avatar v-show="mode === 'basket'">
-          <v-icon color="red">{{ spellLevel(spell.level) }}</v-icon>
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ spell.name }}</v-list-tile-title>
-        </v-list-tile-content>
-        <v-list-tile-action
-          @click.stop="$store.dispatch('addSpell', spell)"
-          v-if="!$store.getters.isSpellInGrimoire(spell)"
+    <draggable v-model="spellList" draggable=".spell-item" @change="log">
+      <template v-for="(spell, index) in spells">
+        <v-list-tile
+          :key="`spell-${index}`"
+          avatar
+          data-index="index"
+          class="spell-item"
+          @click="previewSpell(spell, index)"
+          ripple
         >
-          <v-icon>add_circle</v-icon>
+          <v-list-tile-avatar v-if="mode === 'basket'">
+            <v-icon :class="`${spell.class}Color`">
+              {{ spellLevel(spell.level) }}
+            </v-icon>
+          </v-list-tile-avatar>
+
+          <v-list-tile-content>
+            <v-list-tile-title>
+              <span :class="active(spell, index)"></span>
+              {{ spell.name }}
+            </v-list-tile-title>
+          </v-list-tile-content>
+
+          <!-- <v-list-tile-action>
+          <v-icon>keyboard_arrow_down</v-icon>
         </v-list-tile-action>
-        <v-list-tile-action @click.stop="$store.commit('removeSpell', spell)" v-else>
-          <v-icon>remove_circle</v-icon>
-        </v-list-tile-action>
-      </v-list-tile>
-    </template>
+        <v-list-tile-action>
+          <v-icon>keyboard_arrow_up</v-icon>
+        </v-list-tile-action> -->
+
+          <v-list-tile-action
+            @click.stop="$store.dispatch('addSpell', spell)"
+            v-if="!$store.getters.isSpellInGrimoire(spell)"
+          >
+            <v-icon>add_circle</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-action
+            @click.stop="$store.commit('removeSpell', spell)"
+            v-else
+          >
+            <v-icon>remove_circle</v-icon>
+          </v-list-tile-action>
+        </v-list-tile>
+
+        <v-divider :key="`divider-${index}`" v-if="index < spells.length - 1" />
+      </template>
+    </draggable>
   </v-list>
 </template>
 
 <script>
+import draggable from "vuedraggable";
 export default {
   name: "spell-list",
   props: { spells: Array, mode: String },
+  components: { draggable },
+  data() {
+    return {
+      spellIndex: -1
+    };
+  },
+  watch: {
+    spells: function(val) {
+      this.spellIndex = -1;
+    }
+  },
+  computed: {
+    spellList: {
+      get() {
+        return this.spells;
+      },
+      set(value) {
+        console.log(value);
+        //this.$store.commit('updateList', value)
+      }
+    }
+  },
   methods: {
-    previewSpell(spell) {
+    log(e) {
+      console.log(e);
+    },
+    active(spell, index) {
+      const spellClass = spell.class.split(` `)[0];
+      return {
+        active: true,
+        [`${spellClass}Background`]: this.spellIndex === index
+      };
+    },
+    previewSpell(spell, index) {
       if (this.mode === "basket") return;
 
+      this.spellIndex = index;
       this.$store.dispatch("previewSpell", spell);
     },
     spellLevel(level) {
@@ -40,8 +102,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "@/styles/colors.scss";
+
 .spell-list {
   height: 30vh;
   overflow-y: scroll;
+}
+.active {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
 }
 </style>

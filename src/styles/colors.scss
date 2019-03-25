@@ -1,0 +1,20 @@
+$colors: (
+  Bard: #8c5385,
+  Cleric: #ffad46,
+  Druid: #60b85d,
+  Paladin: #3bafb1,
+  Ranger: #857056,
+  Sorcerer: #f83a22,
+  Warlock: #f36510,
+  Wizard: maroon
+);
+
+@each $class, $color in $colors {
+  .#{$class}Background {
+    background-color: $color;
+  }
+
+  .#{$class}Color {
+    color: $color !important;
+  }
+}

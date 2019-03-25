@@ -1,18 +1,28 @@
 <template>
   <v-container grid-list-md>
     <v-layout row wrap>
-      <v-flex sm4 md5>
+      <v-flex sm4 md5 lg4>
         <h1 class="title mb-3">Spell List</h1>
         <v-sheet class="pa-2">
-          <span v-if="$store.getters.grimoire.length==0">No spell in your grimoire</span>
-          <spell-list :spells="$store.getters.grimoire" mode="basket" v-else/>
+          <span v-if="$store.getters.grimoire.length == 0"
+            >No spell in your grimoire</span
+          >
+          <spell-list :spells="$store.getters.grimoire" mode="basket" v-else />
         </v-sheet>
-        <v-divider/>
+        <v-divider />
+        <v-sheet>
+          <v-switch
+            false-value="portrait"
+            true-value="landscape"
+            @change="$store.commit('toggleOrientation')"
+            :label="$store.state.grimoire.orientation"
+          ></v-switch>
+        </v-sheet>
       </v-flex>
-      <v-flex sm8 md7>
+      <v-flex sm8 md7 lg8>
         <h1 class="title mb-3">Spells To Print</h1>
         <v-sheet class="px-2">
-          <!-- <card :spell="$store.state.tomeOfMagic.spell" v-if="$store.state.tomeOfMagic.spell.name"/> -->
+          <cards />
         </v-sheet>
       </v-flex>
     </v-layout>
@@ -21,7 +31,8 @@
 
 <script>
 import SpellList from "./SpellList.vue";
-export default { name: "grimoire", components: { SpellList } };
+import Cards from "./Cards.vue";
+export default { name: "grimoire", components: { Cards, SpellList } };
 </script>
 
 <style>

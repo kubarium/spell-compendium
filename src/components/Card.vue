@@ -1,10 +1,13 @@
 <template>
   <div
     class="card"
-    :class="[`${spellClass}Background`,{
-      wide: $store.state.tomeOfMagic.wide,
-      tall: $store.state.tomeOfMagic.tall,
-    }]"
+    :class="[
+      `${spellClass}Background`,
+      {
+        wide,
+        tall
+      }
+    ]"
   >
     <article ref="article">
       <header>{{ spell.name }}</header>
@@ -43,7 +46,7 @@
         </div>
       </section>
       <section>
-        <p class="description" v-html="spell.description"/>
+        <p class="description" v-html="spell.description" />
         <p class="material" v-show="spell.material">
           <indicator
             class="indicator"
@@ -76,34 +79,56 @@ export default {
   components: { Indicator },
   data() {
     return {
+      wide: false,
+      tall: false,
       spellClass: this.spell.class.split(" ")[0]
     };
+  },
+  watch: {
+    spell: function(val) {
+      this.spellClass = val.class.split(" ")[0];
+      this.updateCardDimensions();
+    }
+  },
+  /* updated() {
+    console.log(this.)
+    console.log("updated");
+  },
+  */
+  created() {
+    this.updateCardDimensions();
+  },
+  methods: {
+    updateCardDimensions() {
+      let length = this.spell.description.length;
+      if (this.spell.higherLevel) {
+        length += this.spell.higherLevel.length;
+      }
+      if (this.spell.material) {
+        length += this.spell.material.length;
+      }
+      console.log(length);
+      if (length < 570) {
+        this.wide = false;
+        this.tall = false;
+      } else if (length < 1000) {
+        this.wide = true;
+        this.tall = false;
+      } else if (length < 1830) {
+        this.wide = false;
+        this.tall = true;
+      } else {
+        this.wide = true;
+        this.tall = true;
+      }
+    }
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-$colors: (
-  Bard: #8c5385,
-  Cleric: #ffad46,
-  Druid: #60b85d,
-  Paladin: #3bafb1,
-  Ranger: #857056,
-  Sorcerer: #f83a22,
-  Warlock: #8c5385,
-  Wizard: maroon
-);
-
-@each $class, $color in $colors {
-  .#{$class}Background {
-    background-color: $color;
-  }
-
-  .#{$class}Color {
-    color: $color;
-  }
-}
+@import "@/styles/colors.scss";
 
 .card.wide {
   width: 5in;
@@ -117,7 +142,7 @@ $colors: (
   width: 2.5in;
   display: grid;
   grid-template-rows: 1fr auto;
-  margin: 1px;
+  outline: 1px solid white;
   padding: 10px;
   font-size: 62.5%;
 }
@@ -179,11 +204,12 @@ section {
   & .material {
     margin-bottom: 3px;
     display: grid;
-    grid-template-columns: 1fr auto;
+    /* grid-template-columns: 1fr 100%; */
     grid-auto-flow: column;
     grid-gap: 8px;
     align-self: flex-end;
     align-items: center;
+    justify-content: start;
   }
 
   & .description {

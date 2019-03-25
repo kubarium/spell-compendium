@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Cards from "./views/Cards.vue";
+//import Cards from "./views/Cards.vue";
 
 Vue.use(Router);
 
