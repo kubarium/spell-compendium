@@ -10,7 +10,7 @@
           @click="previewSpell(spell, index)"
           ripple
         >
-          <v-list-tile-avatar v-if="mode === 'basket'">
+          <v-list-tile-avatar v-if="mode === 'grimoire'">
             <v-icon :class="`${spell.class}Color`">
               {{ spellLevel(spell.level) }}
             </v-icon>
@@ -70,7 +70,7 @@ export default {
   computed: {
     spellList: {
       get() {
-        return this.spells;
+        return this.mode === "grimoire" ? this.spells : null;
       },
       set(value) {
         console.log(value);
@@ -90,7 +90,7 @@ export default {
       };
     },
     previewSpell(spell, index) {
-      if (this.mode === "basket") return;
+      if (this.mode === "grimoire") return;
 
       this.spellIndex = index;
       this.$store.dispatch("previewSpell", spell);

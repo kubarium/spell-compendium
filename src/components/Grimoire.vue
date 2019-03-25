@@ -7,7 +7,11 @@
           <span v-if="$store.getters.grimoire.length == 0"
             >No spell in your grimoire</span
           >
-          <spell-list :spells="$store.getters.grimoire" mode="basket" v-else />
+          <spell-list
+            :spells="$store.getters.grimoire"
+            mode="grimoire"
+            v-else
+          />
         </v-sheet>
         <v-divider />
         <v-sheet>
