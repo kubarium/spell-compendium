@@ -14,7 +14,7 @@
       <section>
         <div class="divided">
           <indicator
-            class="indicator"
+            class="indicator ritual"
             :class="`${spellClass}Background`"
             v-show="spell.ritual"
             type="ritual"
@@ -35,7 +35,7 @@
         </div>
         <div class="divided">
           <indicator
-            class="indicator"
+            class="indicator concentration"
             :class="`${spellClass}Background`"
             v-show="spell.concentration"
             type="concentration"
@@ -46,7 +46,12 @@
         </div>
       </section>
       <section>
-        <p class="description" v-html="spell.description"/>
+        <p
+          class="description"
+          v-html="
+            spell.description.replace(/<br>/g, `<span class='break'></span>`)
+          "
+        />
         <p class="material" v-show="spell.material">
           <indicator
             class="indicator"
@@ -81,47 +86,76 @@ export default {
     return {
       wide: false,
       tall: false,
+      dimensionsUpdated: false,
+      firstPass: false,
+      secondPass: false,
       spellClass: this.spell.class.split(" ")[0]
     };
   },
   watch: {
     spell: function(val) {
       this.spellClass = val.class.split(" ")[0];
-      this.updateCardDimensions();
+      //this.updateCardDimensions();
     }
   },
-  /* updated() {
-    console.log(this.)
-    console.log("updated");
-  },
-  */
-  created() {
-    this.updateCardDimensions();
-  },
-  methods: {
-    updateCardDimensions() {
-      let length = this.spell.description.length;
-      if (this.spell.higherLevel) {
-        length += this.spell.higherLevel.length;
-      }
-      if (this.spell.material) {
-        length += this.spell.material.length;
-      }
-      console.log(length);
-      if (length < 570) {
-        this.wide = false;
-        this.tall = false;
-      } else if (length < 1000) {
-        this.wide = true;
-        this.tall = false;
-      } else if (length < 1830) {
-        this.wide = false;
-        this.tall = true;
+  updated() {
+    const article = this.$el.querySelector("article");
+    console.log(article);
+    article.style.overflow = "hidden";
+    //console.log(getComputedStyle(article).overflow);
+    console.log(
+      article.offsetHeight,
+      article.scrollHeight,
+      article.clientHeight
+    );
+    if (this.dimensionsUpdated) return;
+
+    /* if (article.scrollHeight <= article.clientHeight) {
+      this.wide = false;
+      this.tall = false;
+      return;
+    } */
+    /* if (article.scrollHeight > article.clientHeight * 3) {
+      this.wide = true;
+      this.tall = true;
+      this.dimensionsUpdated = true;
+      return;
+    }
+    if (article.scrollHeight > article.clientHeight * 2) {
+      this.wide = false;
+      this.tall = true;
+      this.dimensionsUpdated = true;
+      return;
+    } */
+    if (article.scrollHeight > article.clientHeight) {
+      /* if(this.secondPass){
+
+      } */
+      if (this.firstPass) {
+        if (this.secondPass) {
+          this.tall = true;
+          this.wide = true;
+          return;
+        } else {
+          this.tall = true;
+          this.wide = false;
+          this.secondPass = true;
+        }
       } else {
         this.wide = true;
-        this.tall = true;
+        this.firstPass = true;
       }
+      /* this.tall = false;
+      this.dimensionsUpdated = true; */
+      return;
     }
+  },
+
+  created() {
+    //this.updateCardDimensions();
+  },
+  methods: {
+    updateCardDimensions() {}
   }
 };
 </script>
