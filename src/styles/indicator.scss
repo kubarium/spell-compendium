@@ -1,8 +1,8 @@
 .indicator {
   color: white;
-  width: 16px;
-  height: 16px;
-  margin-top: 4px;
+  width: 15px;
+  height: 15px;
+  margin-bottom: 5px;
   margin-left: 2px;
   display: grid;
   transform: rotate(-45deg);
@@ -12,6 +12,20 @@
   em {
     font-style: normal;
     transform: rotate(45deg);
+  }
+
+  &.ritual{
+    position: absolute;
+    margin: 0;
+    left: 5px;
+    bottom: 5px;
+  }
+
+  &.concentration{
+    position: absolute;
+    margin: 0;
+    left: 5px;
+    top: 5px;
   }
 }
 .absolute {
