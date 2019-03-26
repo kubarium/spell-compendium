@@ -2,14 +2,14 @@
   <v-app class="white">
     <v-content>
       <v-container fluid pa-0>
-        <v-tabs dark color="pink accent-3" slider-color="indigo darken-4">
+        <v-tabs dark fixed-tabs color="pink accent-3" slider-color="indigo darken-4">
           <v-tab>Tome of Magic</v-tab>
           <v-tab>Grimoire</v-tab>
           <v-tab-item>
-            <tome-of-magic />
+            <tome-of-magic/>
           </v-tab-item>
           <v-tab-item>
-            <grimoire />
+            <grimoire/>
           </v-tab-item>
         </v-tabs>
       </v-container>

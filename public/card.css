@@ -1,0 +1,103 @@
+@page {
+  margin: 0;
+}
+.card.wide {
+  width: 5in;
+  grid-column-end: span 2;
+}
+
+.card.tall {
+  height: 7in;
+  grid-row-end: span 2;
+}
+
+.card {
+  -webkit-print-color-adjust: exact;
+  height: 3.5in;
+  width: 2.5in;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  outline: 1px solid white;
+  padding: 10px;
+  font-size: 62.5%;
+}
+.card article {
+  display: grid;
+  text-align: center;
+  grid-template-rows: auto auto auto 1fr;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.card header {
+  padding: 5px 0;
+  font-size: 14px;
+  font-weight: 400;
+  background: white;
+  text-transform: uppercase;
+}
+.card section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 2px;
+}
+.card section .divided {
+  display: grid;
+  align-content: flex-start;
+  padding: 3px;
+  font-size: 9px;
+  background: white;
+}
+.card section .divided:last-child {
+  margin-left: 2px;
+}
+.card section label {
+  font-size: 10px;
+  font-weight: 700;
+  padding-bottom: 2px;
+  text-transform: uppercase;
+}
+.card section:last-child {
+  text-align: left;
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 5px;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: initial;
+  background: white;
+}
+.card section p {
+  margin: 0;
+  padding: 3px;
+}
+.card section br {
+  line-height: 15px;
+}
+.card section .material {
+  margin-bottom: 3px;
+  display: grid;
+  /* grid-template-columns: 1fr 100%; */
+  grid-auto-flow: column;
+  grid-gap: 8px;
+  align-self: flex-end;
+  align-items: center;
+  justify-content: start;
+}
+.card section .higherLevel {
+  align-self: flex-end;
+}
+.card section .higherLevel h1 {
+  color: white;
+  text-align: center;
+  padding: 2px;
+  font-size: 10px;
+  margin: 0;
+}
+.card footer {
+  color: white;
+  display: grid;
+  margin-top: 5px;
+  grid-auto-flow: column;
+  justify-content: space-between;
+}
+
+/*# sourceMappingURL=card.css.map */

@@ -1,0 +1,65 @@
+.BardBackground {
+  background-color: #8c5385;
+}
+
+.BardColor {
+  color: #8c5385 !important;
+}
+
+.ClericBackground {
+  background-color: #ffad46;
+}
+
+.ClericColor {
+  color: #ffad46 !important;
+}
+
+.DruidBackground {
+  background-color: #60b85d;
+}
+
+.DruidColor {
+  color: #60b85d !important;
+}
+
+.PaladinBackground {
+  background-color: #3bafb1;
+}
+
+.PaladinColor {
+  color: #3bafb1 !important;
+}
+
+.RangerBackground {
+  background-color: #857056;
+}
+
+.RangerColor {
+  color: #857056 !important;
+}
+
+.SorcererBackground {
+  background-color: #f83a22;
+}
+
+.SorcererColor {
+  color: #f83a22 !important;
+}
+
+.WarlockBackground {
+  background-color: #f36510;
+}
+
+.WarlockColor {
+  color: #f36510 !important;
+}
+
+.WizardBackground {
+  background-color: maroon;
+}
+
+.WizardColor {
+  color: maroon !important;
+}
+
+/*# sourceMappingURL=colors.css.map */

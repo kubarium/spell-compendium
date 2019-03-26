@@ -3,7 +3,7 @@
     <draggable
       v-model="spellList"
       draggable=".spell-item"
-      @change="log"
+      @change="swapSpells"
       :disabled="mode !== 'grimoire'"
     >
       <template v-for="(spell, index) in spells">
@@ -16,9 +16,7 @@
           ripple
         >
           <v-list-tile-avatar v-if="mode === 'grimoire'">
-            <v-icon :class="`${spell.class}Color`">
-              {{ spellLevel(spell.level) }}
-            </v-icon>
+            <v-icon :class="`${spell.class}Color`">{{ spellLevel(spell.level) }}</v-icon>
           </v-list-tile-avatar>
 
           <v-list-tile-content>
@@ -28,13 +26,6 @@
             </v-list-tile-title>
           </v-list-tile-content>
 
-          <!-- <v-list-tile-action>
-          <v-icon>keyboard_arrow_down</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-action>
-          <v-icon>keyboard_arrow_up</v-icon>
-        </v-list-tile-action> -->
-
           <v-list-tile-action
             @click.stop="$store.dispatch('addSpell', spell)"
             v-if="!$store.getters.isSpellInGrimoire(spell)"
@@ -42,15 +33,12 @@
             <v-icon>add_circle</v-icon>
           </v-list-tile-action>
 
-          <v-list-tile-action
-            @click.stop="$store.commit('removeSpell', spell)"
-            v-else
-          >
+          <v-list-tile-action @click.stop="$store.commit('removeSpell', spell)" v-else>
             <v-icon>remove_circle</v-icon>
           </v-list-tile-action>
         </v-list-tile>
 
-        <v-divider :key="`divider-${index}`" v-if="index < spells.length - 1" />
+        <v-divider :key="`divider-${index}`" v-if="index < spells.length - 1"/>
       </template>
     </draggable>
   </v-list>
@@ -77,15 +65,15 @@ export default {
       get() {
         return this.mode === "grimoire" ? this.spells : null;
       },
-      set(value) {
-        console.log(value);
-        //this.$store.commit('updateList', value)
-      }
+      set(spells) {}
     }
   },
   methods: {
-    log(e) {
-      console.log(e);
+    swapSpells(spells) {
+      this.$store.commit("swapSpells", {
+        oldIndex: spells.moved.oldIndex / 2,
+        newIndex: spells.moved.newIndex / 2
+      });
     },
     active(spell, index) {
       const spellClass = spell.class.split(` `)[0];
@@ -110,7 +98,7 @@ export default {
 @import "@/styles/colors.scss";
 
 .spell-list {
-  height: 30vh;
+  height: 70vh;
   overflow-y: scroll;
 }
 .active {
