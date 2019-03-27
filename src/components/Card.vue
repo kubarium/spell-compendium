@@ -14,7 +14,7 @@
       <section>
         <div class="divided">
           <indicator
-            class="indicator ritual"
+            class="ritual"
             :class="`${spellClass}Background`"
             v-show="spell.ritual"
             type="ritual"
@@ -35,7 +35,7 @@
         </div>
         <div class="divided">
           <indicator
-            class="indicator concentration"
+            class="concentration"
             :class="`${spellClass}Background`"
             v-show="spell.concentration"
             type="concentration"
@@ -46,21 +46,20 @@
         </div>
       </section>
       <section>
-        <p
-          class="description"
-          v-html="
-            spell.description.replace(/<br>/g, `<span class='break'></span>`)
-          "
-        />
         <p class="material" v-show="spell.material">
           <indicator
-            class="indicator"
             :class="`${spellClass}Background`"
             type="material"
             :absolute="false"
           />
           <span>{{ spell.material }}</span>
         </p>
+        <p
+          class="description"
+          v-html="
+            spell.description.replace(/<br>/g, `<span class='break'></span>`)
+          "
+        />
         <div class="higherLevel" v-show="spell.higherLevel">
           <h1 :class="`${spellClass}Background`">At Higher Levels</h1>
           <p v-html="spell.higherLevel"></p>
@@ -86,7 +85,6 @@ export default {
     return {
       wide: false,
       tall: false,
-      dimensionsUpdated: false,
       firstPass: false,
       secondPass: false,
       spellClass: this.spell.class.split(" ")[0]
@@ -95,67 +93,46 @@ export default {
   watch: {
     spell: function(val) {
       this.spellClass = val.class.split(" ")[0];
-      //this.updateCardDimensions();
+      this.resetDimensions();
     }
+  },
+  created() {
+    this.$forceUpdate();
   },
   updated() {
-    const article = this.$el.querySelector("article");
-    console.log(article);
-    article.style.overflow = "hidden";
-    //console.log(getComputedStyle(article).overflow);
-    console.log(
-      article.offsetHeight,
-      article.scrollHeight,
-      article.clientHeight
-    );
-    if (this.dimensionsUpdated) return;
-
-    /* if (article.scrollHeight <= article.clientHeight) {
-      this.wide = false;
-      this.tall = false;
-      return;
-    } */
-    /* if (article.scrollHeight > article.clientHeight * 3) {
-      this.wide = true;
-      this.tall = true;
-      this.dimensionsUpdated = true;
-      return;
-    }
-    if (article.scrollHeight > article.clientHeight * 2) {
-      this.wide = false;
-      this.tall = true;
-      this.dimensionsUpdated = true;
-      return;
-    } */
-    if (article.scrollHeight > article.clientHeight) {
-      /* if(this.secondPass){
-
-      } */
-      if (this.firstPass) {
-        if (this.secondPass) {
-          this.tall = true;
-          this.wide = true;
-          return;
-        } else {
-          this.tall = true;
-          this.wide = false;
-          this.secondPass = true;
-        }
-      } else {
-        this.wide = true;
-        this.firstPass = true;
-      }
-      /* this.tall = false;
-      this.dimensionsUpdated = true; */
-      return;
-    }
+    this.updateDimensions();
   },
-
-  created() {
-    //this.updateCardDimensions();
+  mounted() {
+    this.updateDimensions();
   },
   methods: {
-    updateCardDimensions() {}
+    resetDimensions() {
+      this.firstPass = false;
+      this.secondPass = false;
+      this.tall = false;
+      this.wide = false;
+    },
+    updateDimensions() {
+      const article = this.$el.querySelector("article");
+      //console.log(article.scrollHeight, article.clientHeight);
+      //article.style.overflow = "hidden";
+      if (article.scrollHeight > article.clientHeight) {
+        if (this.firstPass) {
+          if (this.secondPass) {
+            this.tall = true;
+            this.wide = true;
+            return;
+          } else {
+            this.tall = true;
+            this.wide = false;
+            this.secondPass = true;
+          }
+        } else {
+          this.wide = true;
+          this.firstPass = true;
+        }
+      }
+    }
   }
 };
 </script>
@@ -165,10 +142,4 @@ export default {
 @import "@/styles/colors.scss";
 
 @import "@/styles/card.scss";
-
-/* @media print {
-  header {
-    font-size: 12pt;
-  }
-} */
 </style>

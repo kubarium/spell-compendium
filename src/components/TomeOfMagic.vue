@@ -37,17 +37,32 @@
           <spell-list :spells="$store.getters.spells" v-else />
         </v-sheet>
         <v-divider />
+        <v-sheet class="pa-2">
+          <h2 class="subheading my-1 pink--text text--darken-2">
+            Grimoire
+          </h2>
+          <span v-if="$store.getters.grimoire.length == 0"
+            >No spell in your grimoire</span
+          >
+          <spell-list
+            :spells="$store.getters.grimoire"
+            mode="grimoire"
+            v-else
+          />
+          <v-btn icon @click="$store.dispatch('print')"><v-icon>print</v-icon></v-btn>
+        </v-sheet>
       </v-flex>
       <v-flex sm8 md7 lg8>
         <h1 class="title mb-3">Preview</h1>
         <v-sheet class="px-2">
-          <card
+          <!-- <card
             :spell="$store.state.tomeOfMagic.spell"
             v-if="
               !$store.state.tomeOfMagic.loading &&
                 $store.state.tomeOfMagic.spell.name
             "
-          />
+          /> -->
+          <cards />
         </v-sheet>
         <v-sheet v-if="$store.state.tomeOfMagic.loading">
           Acquiring spell details
@@ -60,11 +75,12 @@
 
 <script>
 import Card from "./Card.vue";
+import Cards from "./Cards.vue";
 import LevelSelector from "./LevelSelector.vue";
 import ClassSelector from "./ClassSelector.vue";
 import SpellList from "./SpellList.vue";
 export default {
   name: "tome-of-magic",
-  components: { Card, ClassSelector, LevelSelector, SpellList }
+  components: { Card, Cards, ClassSelector, LevelSelector, SpellList }
 };
 </script>

@@ -16,7 +16,9 @@
           ripple
         >
           <v-list-tile-avatar v-if="mode === 'grimoire'">
-            <v-icon :class="`${spell.class}Color`">{{ spellLevel(spell.level) }}</v-icon>
+            <v-icon :class="`${spell.class}Color`">{{
+              spellLevel(spell.level)
+            }}</v-icon>
           </v-list-tile-avatar>
 
           <v-list-tile-content>
@@ -33,12 +35,15 @@
             <v-icon>add_circle</v-icon>
           </v-list-tile-action>
 
-          <v-list-tile-action @click.stop="$store.commit('removeSpell', spell)" v-else>
+          <v-list-tile-action
+            @click.stop="$store.commit('removeSpell', spell)"
+            v-else
+          >
             <v-icon>remove_circle</v-icon>
           </v-list-tile-action>
         </v-list-tile>
 
-        <v-divider :key="`divider-${index}`" v-if="index < spells.length - 1"/>
+        <v-divider :key="`divider-${index}`" v-if="index < spells.length - 1" />
       </template>
     </draggable>
   </v-list>
@@ -56,7 +61,7 @@ export default {
     };
   },
   watch: {
-    spells: function(val) {
+    spells: function() {
       this.spellIndex = -1;
     }
   },
@@ -65,7 +70,7 @@ export default {
       get() {
         return this.mode === "grimoire" ? this.spells : null;
       },
-      set(spells) {}
+      set() {}
     }
   },
   methods: {
@@ -98,7 +103,7 @@ export default {
 @import "@/styles/colors.scss";
 
 .spell-list {
-  height: 70vh;
+  height: 25vh;
   overflow-y: scroll;
 }
 .active {

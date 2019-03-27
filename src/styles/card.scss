@@ -1,6 +1,4 @@
-@page {
-  margin: 0;
-}
+
 
 .card.wide {
   width: 5in;
@@ -84,13 +82,6 @@
       height: 4px;
     }
 
-   /*  & br {
-      border-bottom: 1px solid red;
-    }
-    & br::after{
-      display: block;
-      content: "asdas";
-    } */
 
     & .material {
       /* margin-bottom: 3px; */
@@ -98,8 +89,9 @@
       grid-auto-flow: column;
       grid-gap: 8px;
       align-self: flex-end;
-      /* align-items: center; */
+      align-items: center;
       justify-content: start;
+      padding: 4px 2px;
     }
 
     & .higherLevel {

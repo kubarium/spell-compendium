@@ -1,6 +1,10 @@
 <template>
   <div class="cards" :class="$store.state.grimoire.orientation">
-    <card :spell="spell" v-for="(spell, index) in $store.state.grimoire.spells" :key="index"/>
+    <card
+      :spell="spell"
+      v-for="(spell, index) in $store.getters.grimoire"
+      :key="`grimoire-${index}`"
+    />
   </div>
 </template>
 
@@ -8,29 +12,37 @@
 // @ is an alias to /src
 import Card from "@/components/Card.vue";
 export default {
-  name: "home",
+  name: "cards",
   props: { orientation: String },
   components: {
     Card
   }
+  /* created() {
+    //console.log("cards created");
+    this.updateDimensions();
+  },
+  updated() {
+    //console.log("cards updated");
+    //console.log(this.$refs.cards);
+    this.updateDimensions();
+
+  },
+  mounted() {
+    //console.log("cards mounted");
+    this.updateDimensions();
+  },
+  methods: {
+    updateDimensions() {
+      window.sik = this;
+      if (this.$children.length) {
+        console.log(this.$children);
+        this.$children.forEach(child => child.updateDimensions());
+      }
+    }
+  } */
 };
 </script>
 
-<style lang="scss" scoped>
-.cards {
-  display: grid;
-  outline: 1px solid #333;
-}
-.portrait {
-  grid-template-columns: repeat(3, 1fr);
-  width: 8.5in;
-  height: 11in;
-  padding: 0.25in 0.5in;
-}
-.landscape {
-  width: 11in;
-  height: 8.5in;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 0.75in 0.5in;
-}
+<style lang="scss">
+@import "@/styles/cards.scss";
 </style>

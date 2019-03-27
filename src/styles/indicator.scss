@@ -2,31 +2,33 @@
   color: white;
   width: 15px;
   height: 15px;
-  margin-bottom: 5px;
-  margin-left: 2px;
+  margin: 2px 2px 0 3px;
+  /* margin-bottom: 5px; */
+  /* margin-left: 2px; */
   display: grid;
   transform: rotate(-45deg);
   align-items: center;
   text-align: center;
+  /* outline: 1px solid red; */
 
   em {
     font-style: normal;
     transform: rotate(45deg);
   }
 
-  &.ritual{
+  &.ritual, &.concentration{
     position: absolute;
     margin: 0;
-    left: 5px;
-    bottom: 5px;
+    right: 5px;
+    bottom: 6px;
   }
 
-  &.concentration{
+  /* &.concentration1{
     position: absolute;
     margin: 0;
     left: 5px;
     top: 5px;
-  }
+  } */
 }
 .absolute {
   position: absolute;
