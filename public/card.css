@@ -14,7 +14,7 @@
   width: 2.5in;
   display: grid;
   grid-template-rows: 1fr auto;
-  outline: 1px solid white;
+  /* outline: 1px solid white; */
   padding: 10px;
   font-size: 62.5%;
 }
